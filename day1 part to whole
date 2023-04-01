@@ -1,0 +1,54 @@
+#Loading libraries
+library(tidyverse) #to create the data and the graphs
+library(scales)
+
+# Creating the data to be used to create the chart
+countries_visited <- 0.06
+df <- tibble(x = 1, y = countries_visited) %>% 
+  mutate(y_negative = 1 - y) %>% 
+  pivot_longer(cols = -x) 
+
+df
+
+highlight_color = "mediumorchid4"
+font_family <- "Inter"
+
+# Create a nicely formatted big number to go in the donut hole
+big_number_text_label <- percent(countries_visited, accuracy = 1)
+
+# Create our plot
+ggplot(data = df,
+       aes(x = x,
+           y = value,
+           fill = name)) +
+  
+  # Add a bar, but don't add the legend
+  geom_col() +
+  
+  
+  # A pie/donut chart is a bar chart with polar coordinates
+  # Add polar coordinates and set the direction to -1 
+  # so the filled in part starts at the top and goes clockwise
+  coord_polar(theta = "y",
+              direction = -1) +
+  
+  
+  # Set the limits, which is important for adding the hole
+  xlim(c(-2, 2)) +
+  
+  # Set a color scale with the highlighted section in whatever color
+  # is chosen with the highlight_color argument and the rest in a light gray
+  scale_fill_manual(values = c(highlight_color, "grey90"),labels = c("Countries visited","Countries not visited"),name="") +
+  # Set theme_void() to remove grid lines and everything else from the plot
+  theme_void() +
+  ggtitle("From 2016 to 2023 I visited 13 countries \nfrom 195 in the world ")+
+  
+  # Add the big number in the center of the hole
+  annotate(geom = "text",
+           label = big_number_text_label,
+           family = font_family,
+           fontface = "bold",
+           color = highlight_color,
+           size = 12,
+           x = -2,
+           y = 0)
