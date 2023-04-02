@@ -1,0 +1,27 @@
+library(waffle)
+
+data1 <- c(`Male` = 10, `Female` = 22)
+
+waffle(
+  data1 , rows = 4, size = 0.5,
+  colors = c("lightskyblue3", "palevioletred"),
+  title = "Sex Ratio of the students of BI",
+) -> A
+
+data2 <- c(`Male` = 18, `Female` = 6)
+
+waffle(
+  data2, rows = 4, size = 0.5,
+  colors = c("lightskyblue3", "palevioletred"),
+  title = "Sex Ratio of the student of AI",
+) -> B
+
+data3 <- c(`Male` = 8, `Female` = 4)
+
+waffle(
+  data3 , rows = 4, size = 0.5,
+  colors = c("lightskyblue3", "palevioletred"),
+  title = "Sex Ratio of the students of End of Study project",
+) -> C
+
+iron(A, B, C)
